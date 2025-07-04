@@ -1,0 +1,6 @@
+@CriproBack_HostAddress = http://localhost:5005
+
+GET {{CriproBack_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
