@@ -1,5 +1,6 @@
 ﻿using CriproBack.DTOs;
 using CriproBack.Models;
+using CriproBack.Models.Externos;
 using CriproBack.ServiciosExternos;
 using CriproBack.Validaciones;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace CriproBack.Controllers
         [HttpPost]
         public async Task<ActionResult<TransaccionReadDto>> Post(TransaccionCreateDto dto)
         {
-            // Validaciones
+          
             if (!ValidacionTransaccion.EsCantidadValida(dto.CryptoAmount))
                 return BadRequest("La cantidad de criptomonedas debe ser mayor a 0.");
 
@@ -104,7 +105,7 @@ namespace CriproBack.Controllers
             return Ok(result);
         }
 
-        // GET: api/transaccion/{id}
+        // GET: api/transaccion/id
         [HttpGet("{id}")]
         public async Task<ActionResult<TransaccionReadDto>> GetById(int id)
         {
@@ -126,7 +127,7 @@ namespace CriproBack.Controllers
             return Ok(dto);
         }
 
-        // PATCH: api/transaccion/{id}
+        // PATCH: api/transaccion/id
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, TransaccionUpdateDto dto)
         {
@@ -134,7 +135,7 @@ namespace CriproBack.Controllers
             if (transaccion == null)
                 return NotFound();
 
-            // Actualizamos CryptoAmount si viene y validamos
+          
             if (dto.CryptoAmount.HasValue)
             {
                 if (!ValidacionTransaccion.EsCantidadValida(dto.CryptoAmount.Value))
@@ -142,7 +143,7 @@ namespace CriproBack.Controllers
 
                 transaccion.CryptoAmount = dto.CryptoAmount.Value;
 
-                // Recalculamos Money con el precio actual de la cripto
+             
                 try
                 {
                     var precioUnitario = await _criptoPriceService.ObtenerPrecioCripto(transaccion.CryptoCode);
@@ -154,7 +155,7 @@ namespace CriproBack.Controllers
                 }
             }
 
-            // Actualizamos FechaHora si viene y validamos
+            
             if (dto.FechaHora.HasValue)
             {
                 if (!ValidacionTransaccion.EsFechaValida(dto.FechaHora.Value))
@@ -162,9 +163,7 @@ namespace CriproBack.Controllers
                 transaccion.FechaHora = dto.FechaHora.Value;
             }
 
-            // Money no se debe actualizar directamente si CryptoAmount cambia,
-            // por eso ignoramos dto.Money en ese caso.
-            // Si viene y no se cambió CryptoAmount, actualizamos solo si no es nulo.
+           
             if (dto.Money.HasValue && !dto.CryptoAmount.HasValue)
             {
                 transaccion.Money = dto.Money.Value;
@@ -175,7 +174,7 @@ namespace CriproBack.Controllers
             return NoContent();
         }
 
-        // DELETE: api/transaccion/{id}
+        // DELETE: api/transaccion/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -188,5 +187,14 @@ namespace CriproBack.Controllers
 
             return NoContent();
         }
+
+
+       
+
+
+
+
+
+
     }
 }
