@@ -32,6 +32,26 @@ builder.Services.AddScoped<IServicioPrecioDeCripto, ServicioPrecioDeCripto>();
 var app = builder.Build();
 
 
+
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PoliticaCliente", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+app.UseCors("PoliticaCliente");
+
+
+
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
