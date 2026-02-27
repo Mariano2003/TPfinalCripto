@@ -7,7 +7,7 @@ namespace CriproBack.Validaciones
 {
     public static class ValidacionTransaccion
     {
-        // Lista ampliada para aceptar códigos y nombres comunes
+       
         private static readonly HashSet<string> CriptosValidas = new(StringComparer.OrdinalIgnoreCase)
         {
             "btc",
@@ -28,7 +28,7 @@ namespace CriproBack.Validaciones
             cantidad > 0;
 
         public static bool EsFechaValida(DateTime fecha) =>
-            fecha <= DateTime.UtcNow;  // No permite fechas futuras
+            fecha <= DateTime.UtcNow; 
 
         public static async Task<bool> TieneSaldoSuficiente(AppDbContext context, TransaccionCreateDto dto)
         {

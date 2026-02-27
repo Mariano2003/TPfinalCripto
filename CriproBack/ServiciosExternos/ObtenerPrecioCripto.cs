@@ -8,13 +8,16 @@ namespace CriproBack.ServiciosExternos
     public interface IServicioPrecioDeCripto
     {
         Task<decimal> ObtenerPrecioCripto(string cryptoCode);
+     
+  
+
     }
 
     public class ServicioPrecioDeCripto : IServicioPrecioDeCripto
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        // Lista de criptos válidas mínimas soportadas
+
         private static readonly HashSet<string> CriptosValidas = new() { "btc", "usdt", "eth" };
 
         public ServicioPrecioDeCripto(IHttpClientFactory httpClientFactory)
@@ -56,5 +59,14 @@ namespace CriproBack.ServiciosExternos
                 throw new Exception($"Error al deserializar respuesta JSON: {ex.Message}");
             }
         }
+
+
+     
+
+
+
+
+
+
     }
 }
